@@ -1,14 +1,27 @@
 import 'reflect-metadata';
-import express from 'express';
-const app = express();
-app.use(express.json());
+import * as bodyParser from 'body-parser';
+import '@/modules/users/controllers/user.controller';
+import '@/modules/auth/controller/auth.controller';
+import { InversifyExpressServer } from 'inversify-express-utils';
+import { appContainer } from '@/shared/container/app.container';
+import { errorHandler } from '@/shared/middleware/error.middleware';
 
-app.get('/', (_, res) => {
-  res.json({ message: 'Hello World' });
-});
+let server = new InversifyExpressServer(appContainer);
+server
+  .setConfig(app => {
+    app.use(
+      bodyParser.urlencoded({
+        extended: true,
+      })
+    );
+    app.use(bodyParser.json());
+  })
+  .setErrorConfig(app => {
+    app.use(errorHandler);
+  });
 
-const PORT = process.env.PORT || 3000;
+let app = server.build();
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+app.listen(3000, () => {
+  console.log('App running on port 3000');
 });
