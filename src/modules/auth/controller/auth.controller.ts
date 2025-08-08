@@ -1,7 +1,6 @@
 import { AUTH_TYPES } from '@/modules/auth/di/types';
 import { RegisterDto } from '@/modules/auth/dtos/register.dto';
 import { IAuthService } from '@/modules/auth/interfaces/auth.service.interface';
-import { IJwtService } from '@/modules/auth/interfaces/jwt.service.interface';
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { inject } from 'inversify';
@@ -16,7 +15,6 @@ import {
 @controller('/auth')
 export class AuthController implements Controller {
   constructor(
-    @inject(AUTH_TYPES.JwtService) private jwtService: IJwtService,
     @inject(AUTH_TYPES.AuthService) private authService: IAuthService
   ) {}
 

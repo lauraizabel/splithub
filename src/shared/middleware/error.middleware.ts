@@ -18,7 +18,7 @@ export const errorHandler = (
   if (error instanceof ApplicationError || error instanceof NotFoundError) {
     statusCode = error.statusCode;
   }
-  const message = error.message || 'Erro interno do servidor';
+  const message = error.message || 'Server Internal Error';
   logger.error(message, error);
   res.status(statusCode).json({
     error: {
